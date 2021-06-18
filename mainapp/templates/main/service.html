@@ -1,0 +1,86 @@
+        {% extends 'main/base.html' %}
+        {% block content %}
+        <!-- Section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{service.imageUrl}}" alt="..." /></div>
+                    <div class="col-md-6">
+                        <div class="small mb-1">{{service.category}}</div>
+                        <h1 class="display-5 fw-bolder">{{service.name}}</h1>
+                        <div class="fs-5 mb-5">
+                            <span>{{service.location}}</span>
+                        </div>
+                        <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
+                        <div class="d-flex">
+                            {% if request.user.is_authenticated %}
+                            <button class="btn book-btn btn-outline-dark flex-shrink-0" type="button">
+                                <i class="bi bi-book me-1"></i>
+                                Book
+                            </button>
+                            {% else %}
+                            <button class="btn alert-btn btn-outline-dark flex-shrink-0" type="button">
+                                <i class="bi bi-book me-1"></i>
+                                Book
+                            </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-5 book">
+            <div class="container mb-5">
+                {% for offer in service.services %}
+                <div class="row mb-2">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header bg-transparent fw-bold">
+                                <div class="d-flex align-items-center .justify-content-start">
+                                    <div class="s-2 mr-2">
+                                        <i class="bi bi-bag-fill pull-right icon-chevron-right"></i>
+                                    </div>
+                                    <div class="s-2">
+                                        <span>{{offer.name}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">{{offer.price}} tg</p>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <div class="hide-btn d-flex align-items-center .justify-content-start">
+                                    <div class="s-2 mr-2">
+                                        <span>Make an appointment</span>
+                                    </div>
+                                    <div class="s-2 rot_object">
+                                        <i class="bi bi-chevron-compact-up pull-right icon-chevron-right"></i>
+                                    </div>
+                                </div>
+                                <div class="desc">
+                                    <div class="mt-4">
+                                        <form action="" method="post">
+                                            {% csrf_token %}
+                                                <input class='hidden' type="text" name="service" value="{{service.name}}">
+                                                <input class='hidden' type="text" name="offer" value="{{offer.name}}">
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-clock-fill"></i></span>
+                                                <select class="selectpicker" data-size="4" name='date'>
+                                                    <option value="">Time</option>
+                                                    {% for date in offer.availableDates %}
+                                                    <option value="{{date}}">{{date}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <button type="submit" class="btn btn-primary">Book</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endblock content %}
